@@ -2,6 +2,7 @@ export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
 
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'nuxtfoodapp',
@@ -25,6 +26,8 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    "~/plugins/getFood.server.js",
+    "~/plugins/vuelidate.js"
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

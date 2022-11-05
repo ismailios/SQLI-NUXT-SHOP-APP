@@ -20,7 +20,9 @@
               <h4>{{ menuitem.item }}</h4>
               <p>{{ formatingPrice(menuitem.price) }}</p>
             </div>
-            <button class="ghost">View Item</button>
+            <nuxt-link :to="`/items/${menuitem.id}`">
+              <button class="ghost">View Item</button>
+            </nuxt-link>
           </div>
         </div>
       </div>
@@ -29,10 +31,11 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
 export default {
-  computed: {
-    ...mapState(["fooddata"]),
+  props: {
+    fooddata: {
+      type: [Array, Object],
+    },
   },
   methods: {
     formatingPrice(price) {
