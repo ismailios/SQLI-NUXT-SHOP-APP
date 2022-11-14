@@ -1,6 +1,9 @@
 <template>
   <footer>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit, nam!</p>
+    <p>
+      © 2021 All Rights Reserved By : dolor sit amet consectetur adipisicing
+      elit. Velit, nam!
+    </p>
   </footer>
 </template>
 

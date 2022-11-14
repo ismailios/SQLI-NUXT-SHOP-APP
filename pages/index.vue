@@ -1,23 +1,25 @@
 <template>
   <main class="container">
     <AppHeader />
-    <AppRestaurantInfo :fooddata="fooddata" />
+    <AppProductInfo :products="products" />
   </main>
 </template>
 
 <script>
 import AppHeader from "@/components/AppHeader.vue";
-import AppRestaurantInfo from "@/components/AppRestaurantInfo.vue";
-import { mapState } from "vuex";
+import AppProductInfo from "@/components/AppProductInfo.vue";
+import { useStore, defineComponent, computed } from "@nuxtjs/composition-api";
 
-export default {
+export default defineComponent({
   name: "Home",
   components: {
     AppHeader,
-    AppRestaurantInfo,
+    AppProductInfo,
   },
-  computed: {
-    ...mapState(["fooddata"]),
+  setup() {
+    const store = useStore();
+    const products = computed(() => store.state.products);
+    return { products };
   },
-};
+});
 </script>

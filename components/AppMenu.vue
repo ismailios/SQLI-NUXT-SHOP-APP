@@ -7,7 +7,7 @@
         </nuxt-link>
       </li>
       <li>
-        <nuxt-link to="/restaurants">Restaurants</nuxt-link>
+        <nuxt-link to="/shops">Shops</nuxt-link>
       </li>
     </ul>
     <span class="smallnum" v-if="cartCounter > 0">{{ cartCounter }}</span>
@@ -17,16 +17,20 @@
 
 <script>
 import AppLogo from "@/components/AppLogo.vue";
-import { mapGetters } from "vuex";
+import { computed, defineComponent, useStore } from "@nuxtjs/composition-api";
 
-export default {
+export default defineComponent({
   components: {
     AppLogo,
   },
-  computed: {
-    ...mapGetters(["cartCounter"]),
+
+  setup() {
+    const store = useStore();
+    const cartCounter = computed(() => store.getters.cartCounter);
+
+    return { cartCounter };
   },
-};
+});
 </script>
 
 <style lang="scss" scoped></style>

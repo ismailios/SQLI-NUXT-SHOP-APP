@@ -1,6 +1,6 @@
 import { v4 as uuid4 } from 'uuid'
 export const state = () => ({
-    fooddata: [],
+    products: [],
     cart: []
 })
 
@@ -16,8 +16,8 @@ export const getters = {
 }
 
 export const mutations = {
-    updateFoodData: (state, data) => {
-        state.fooddata = data
+    updateproducts: (state, data) => {
+        state.products = data
     },
     addToCart: (state, forminput) => {
         forminput.id = uuid4()
@@ -26,15 +26,15 @@ export const mutations = {
 }
 
 export const actions = {
-    async getFoodData({ state, commit }) {
-        if (state.fooddata.length > 0) return
+    async getproducts({ state, commit }) {
+        if (state.products.length > 0) return
         try {
+            // TO MOVE TO .ENV FILE
             const response = await fetch(
-                "https://dva9vm8f1h.execute-api.us-east-2.amazonaws.com/production/restaurants", {
+                "https://asos2.p.rapidapi.com/products/v2/list?store=US&offset=0&categoryId=4209&limit=12&country=US&sort=freshness&currency=USD&sizeSchema=US&lang=en-US", {
                 headers: {
-                    "Content-Type": "application/json",
-                    "x-api-key": "Ni9tok2QGz9xOSKsfBp6q87dnjS8zVmo5t45SGsp"
-                    // "x-api-key": process.env.AWS_API_KEY
+                    'X-RapidAPI-Key': "9783d241c4mshbeb46c9ae0a647bp19e043jsn45d15761b6cc",
+                    'X-RapidAPI-Host': "asos2.p.rapidapi.com"
                 }
             }
             )
@@ -42,7 +42,7 @@ export const actions = {
             const data = await response.json()
             // console.log("data", data)
 
-            commit('updateFoodData', data)
+            commit('updateproducts', data.products)
 
         } catch (error) {
             console.log(error)

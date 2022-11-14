@@ -1,8 +1,8 @@
 <template>
   <section class="masthead" role="img" aria-label="Image Description">
-    <h1>Nuxt Food App</h1>
-    <nuxt-link to="/restaurants">
-      <button>Find a restaurant</button>
+    <h1>Sale 20% Off</h1>
+    <nuxt-link to="/shops">
+      <button>Buy a product</button>
     </nuxt-link>
   </section>
 </template>
@@ -13,8 +13,12 @@ export default {};
 
 <style lang="scss" scoped>
 .masthead {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
   width: 100%;
-  height: 80vh;
+  height: 60vh;
   padding: 40px;
   margin-bottom: 60px;
   overflow: hidden;
@@ -25,7 +29,7 @@ export default {};
       rgba(0, 0, 0, 0) 37%,
       rgba(0, 0, 0, 0.65) 100%
     ),
-    url(~assets/headerimg.jpg) no-repeat center center scroll;
+    url(~assets/slider-bg.jpg) no-repeat top center scroll;
 }
 
 h1 {

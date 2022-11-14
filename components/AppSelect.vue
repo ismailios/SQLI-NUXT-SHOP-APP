@@ -6,7 +6,7 @@
       :id="select"
       :name="select"
     >
-      <option>--- Please select a {{ select }}</option>
+      <option value="">--- Please select a {{ select }}</option>
       <option v-for="option in selectOptions" :key="option">
         {{ option }}
       </option>
@@ -19,11 +19,19 @@ export default {
   props: {
     select: {
       type: String,
-      default: "Cuisine",
+      default: "Color",
     },
     selectOptions: {
       type: Array,
-      default: () => ["Tacos", "Pizza", "Dim Sum"],
+      default: () => [
+        "Navy",
+        "Multi",
+        "White",
+        "Off white",
+        "Black",
+        "Red",
+        "Blue",
+      ],
     },
   },
 };

@@ -26,12 +26,15 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-export default {
-  computed: {
-    ...mapState(["cart"]),
+import { computed, defineComponent, useStore } from "@nuxtjs/composition-api";
+export default defineComponent({
+  setup() {
+    const store = useStore();
+    const cart = computed(() => store.state.cart);
+
+    return { cart };
   },
-};
+});
 </script>
 
 <style lang="scss" scoped></style>

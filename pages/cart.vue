@@ -7,7 +7,7 @@
         <thead>
           <tr>
             <th>Item</th>
-            <th>Add Ons</th>
+            <th>Color</th>
             <th>Amount</th>
             <th>Total Price</th>
           </tr>
@@ -15,13 +15,12 @@
         <tbody>
           <tr v-for="item in cart" :key="item.id">
             <td>
-              {{ item.item }}
+              {{ item.item.name }}
               <span v-if="item.options">- {{ item.options }}</span>
             </td>
             <td>
-              <span v-for="addon in item.addOns" :key="addon" class="comma">{{
-                addon
-              }}</span>
+              {{ item.item.colour }}
+              <span v-if="item.options">- {{ item.options }}</span>
             </td>
             <td>{{ item.count }}</td>
             <td>{{ item.combinedPrice }}</td>
@@ -41,16 +40,24 @@
 import { mapState, mapGetters } from "vuex";
 
 import AppEmptyCart from "@/components/AppEmptyCart.vue";
-
-export default {
+import { computed, defineComponent, useStore } from "@nuxtjs/composition-api";
+export default defineComponent({
   components: {
     AppEmptyCart,
   },
-  computed: {
-    ...mapState(["cart"]),
-    ...mapGetters(["totalPrice", "cartCounter"]),
+
+  setup() {
+    const store = useStore();
+    const cart = computed(() => store.state.cart);
+    const totalPrice = computed(() => store.getters.totalPrice);
+    const cartCounter = computed(() => store.getters.cartCounter);
+    return {
+      cart,
+      totalPrice,
+      cartCounter,
+    };
   },
-};
+});
 </script>
 
 <style lang="scss" scoped></style>

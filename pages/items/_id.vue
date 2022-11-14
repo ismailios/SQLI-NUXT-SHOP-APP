@@ -2,13 +2,22 @@
   <main class="container">
     <section
       class="image"
-      :style="`background: url(/${currentItem.img}) no-repeat center center`"
+      :style="`background: url('http://${currentItem.imageUrl}') no-repeat center center`"
     ></section>
 
     <section class="details">
-      <h1>{{ currentItem.item }}</h1>
+      <h1>{{ currentItem.name }}</h1>
 
-      <h3>Price: ${{ currentItem.price.toFixed(2) }}</h3>
+      <h3>Current Price: ${{ currentItem.price.current.value.toFixed(2) }}</h3>
+      <h3>brand Name: {{ currentItem.brandName }}</h3>
+      <h3>Color: {{ currentItem.colour }}</h3>
+      <h4>SKU: {{ currentItem.productCode }}</h4>
+      <h3>Description</h3>
+      <p>
+        color Id : {{ currentItem.colourWayId }}
+        <br />
+        Url : {{ currentItem.url }}
+      </p>
 
       <div class="quantity">
         <input type="number" min="1" v-model="count" />
@@ -16,53 +25,6 @@
           Add to Cart - ${{ combinedPrice }}
         </button>
       </div>
-
-      <fieldset v-if="currentItem.options">
-        <legend>
-          <h3>Options</h3>
-        </legend>
-        <div v-for="option in currentItem.options" :key="option">
-          <input
-            type="radio"
-            name="option"
-            :id="option"
-            :value="option"
-            v-model="$v.itemOptions.$model"
-          />
-          <label :for="option">{{ option }}</label>
-        </div>
-      </fieldset>
-
-      <fieldset v-if="currentItem.addOns">
-        <legend>
-          <h3>Add Ons</h3>
-        </legend>
-        <div v-for="addon in currentItem.addOns" :key="addon">
-          <input
-            type="checkbox"
-            name="addon"
-            :id="addon"
-            :value="addon"
-            v-model="$v.itemAddons.$model"
-          />
-          <label :for="addon">{{ addon }}</label>
-        </div>
-      </fieldset>
-
-      <AppToast v-if="cartSubmitted">
-        Order Added!
-        <br />Return to
-        <nuxt-link to="/restaurants">restaurants</nuxt-link>
-      </AppToast>
-      <!-- <app-toast v-if="errors">
-        Please select options and
-        <br />addons before continuing
-      </app-toast> -->
-    </section>
-
-    <section class="options">
-      <h3>Description</h3>
-      <p>{{ currentItem.description }}</p>
     </section>
   </main>
 </template>
@@ -71,75 +33,48 @@
 import { mapState } from "vuex";
 import AppToast from "@/components/AppToast.vue";
 import { required } from "@vuelidate/validators";
-export default {
+import {
+  computed,
+  defineComponent,
+  useStore,
+  ref,
+  useRoute,
+} from "@nuxtjs/composition-api";
+export default defineComponent({
   components: {
     AppToast,
   },
-  data() {
-    return {
-      id: this.$route.params.id,
-      count: 1,
-      itemOptions: "",
-      itemAddons: [],
-      itemSizeAndCost: [],
-      cartSubmitted: false,
-      errors: false,
-    };
-  },
-  validations: {
-    itemOptions: {
-      required,
-    },
-    itemAddons: {
-      required,
-    },
-  },
-  computed: {
-    ...mapState(["fooddata"]),
-    currentItem() {
-      let result;
+  setup() {
+    const store = useStore();
+    const route = useRoute();
 
-      for (let i = 0; i < this.fooddata.length; i++) {
-        for (let j = 0; j < this.fooddata[i].menu.length; j++) {
-          if (this.fooddata[i].menu[j].id === this.id) {
-            result = this.fooddata[i].menu[j];
-            break;
-          }
-        }
-      }
-      return result;
-    },
-    combinedPrice() {
-      let total = this.count * this.currentItem.price;
-      return total.toFixed(2);
-    },
-  },
-  methods: {
-    addToCart() {
+    const id = computed(() => route.value.params.id);
+
+    const count = ref(1);
+
+    const products = computed(() => store.state.products);
+    const currentItem = computed(() =>
+      products.value.find((product) => product.id == id.value)
+    );
+
+    // console.log(currentItem);
+    const combinedPrice = computed(() => {
+      let total = count.value * currentItem.value.price.current.value;
+      return total?.toFixed(2);
+    });
+
+    function addToCart() {
       let formOutput = {
-        item: this.currentItem.item,
-        count: this.count,
-        options: this.itemOptions,
-        addOns: this.itemAddons,
-        combinedPrice: this.combinedPrice,
+        item: currentItem.value,
+        count: count.value,
+        combinedPrice: combinedPrice.value,
       };
-      this.cartSubmitted = true;
-      this.$store.commit("addToCart", formOutput);
-      // let addOnError = this.$v.itemAddons.$invalid;
-      // let optionError = this.currentItem.options
-      //   ? this.$v.itemOptions.$invalid
-      //   : false;
+      store.commit("addToCart", formOutput);
+    }
 
-      // if (addOnError || optionError) {
-      //   this.errors = true;
-      // } else {
-      //   this.errors = false;
-      //   this.cartSubmitted = true;
-      //   this.$store.commit("addToCart", formOutput);
-      // }
-    },
+    return { addToCart, currentItem, count, combinedPrice };
   },
-};
+});
 </script>
 
 <style lang="scss" scoped>

@@ -6,6 +6,11 @@ textarea {
   font-family: "Mulish", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
 }
+input,
+select,
+textarea {
+  margin-bottom: 10px;
+}
 
 // sticky footer
 .content {
@@ -19,17 +24,19 @@ footer {
 // nav
 
 nav {
-  padding: 5px 60px;
-  background: #082c40;
+  padding: 10px 60px;
+  background: white;
   color: white;
   position: relative;
   align-items: center;
   display: flex;
   justify-content: space-between;
+  border-bottom: 10px solid #ff424d;
 
   a {
-    color: white;
+    color: black;
     text-decoration: none;
+    font-weight: 900;
   }
 
   ul {
@@ -39,7 +46,7 @@ nav {
     padding: 0;
 
     li {
-      padding-right: 40px;
+      padding-right: 60px;
     }
   }
 }
@@ -47,10 +54,10 @@ nav {
 // page layout
 
 .row {
-  margin: 30px 0 60px;
+  margin: 10px 0 60px;
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   grid-template-rows: 1fr;
   grid-column-gap: 30px;
   grid-row-gap: 0px;
@@ -59,7 +66,7 @@ nav {
 // buttons
 
 button {
-  background: #098191;
+  background: #ff424d;
   transition: background ease 0.25s;
   border-radius: 5px;
   display: inline-block;
@@ -76,7 +83,7 @@ button {
 }
 
 button:hover {
-  background: #63b6b8;
+  background: #ff424dd1;
 }
 
 button:focus {
@@ -255,8 +262,8 @@ table th {
 .smallnum {
   position: absolute;
   border-radius: 1000px;
-  background: white;
-  color: black;
+  background: #a8060e;
+  color: white;
   top: 9px;
   right: 33px;
   width: 25px;
@@ -291,11 +298,11 @@ table th {
 
 /* Page-specific styles */
 
-.restaurant {
-  .restaurantheading {
-    margin: 100px 0 20px 200px;
-    display: flex;
-    align-items: center;
+.product {
+  .productheading {
+    margin: 100px 0 10px 200px;
+    // display: flex;
+    // align-items: center;
   }
 
   h1 {
@@ -308,17 +315,18 @@ table th {
   }
 }
 
-// restaurant info
+// product info
 
-section.restaurantinfo {
+section.productinfo {
   padding: 20px 200px;
 
   .items {
-    height: 250px;
+    height: 500px;
     border-radius: 5px;
     background-size: cover;
     position: relative;
-    box-shadow: 2px 6px 6px 0 rgb(215, 215, 215);
+    box-shadow: 0px -1px 6px 0 rgb(215 215 215);
+    margin: 10px;
   }
 
   .iteminfo {
